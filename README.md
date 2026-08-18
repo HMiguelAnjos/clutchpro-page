@@ -91,20 +91,71 @@ Copie `.env.example` para `.env.local` e preencha:
 
 ## Deploy (Cloudflare Workers)
 
-O deploy roda em **Cloudflare Workers**, via *Workers Builds* ligado ao repo:
+O deploy roda em **Cloudflare Workers**, via *Workers Builds* ligado ao repo, usando
+o adapter [`@opennextjs/cloudflare`](https://opennext.js.org/cloudflare).
 
-| Etapa           | Comando           |
-| --------------- | ----------------- |
-| Build           | `npm run build`   |
-| Deploy          | `npx wrangler deploy` |
-| Output          | `.next`           |
-| Worker          | `clutchpro-page`  |
+### A cadeia de build
 
-Cadastre as variáveis de ambiente (acima) no painel do Worker, em
-**Settings → Variables and Secrets**. `SUPABASE_SERVICE_ROLE_KEY` deve entrar
-como **Secret**, nunca como variável de texto puro.
+```
+painel da Cloudflare  ->  npm run build
+                            -> opennextjs-cloudflare build
+                                 -> next build            (via `buildCommand`)
+                                 -> gera .open-next/worker.js
+painel da Cloudflare  ->  npx wrangler deploy
+                            -> publica .open-next/worker.js
+```
 
-Depois é só dar `git push` — a Cloudflare refaz o build e o deploy sozinha.
+O `build` do `package.json` aponta de propósito para o adapter, e o
+`open-next.config.ts` redireciona o passo interno para o `next build`. Isso evita
+recursão **e** dispensa qualquer configuração extra no painel.
+
+### Arquivos que NÃO podem sumir
+
+| Arquivo               | Por quê |
+| --------------------- | ------- |
+| `open-next.config.ts` | Sem ele o build aborta: *No `open-next.config.ts` file was found* |
+| `wrangler.jsonc`      | Define o Worker, o entrypoint e os bindings |
+| `public/_headers`     | Cache dos estáticos (`/_next/static/*`) |
+
+> ⚠️ O campo `name` do `wrangler.jsonc` **tem que ser `clutchpro-page`** — é o nome
+> do Worker que já existe. O `opennextjs-cloudflare migrate` preenche com o nome do
+> `package.json` (`clutchpro-landingpage`), o que criaria um Worker novo e deixaria
+> o domínio apontando para o antigo. O `WORKER_SELF_REFERENCE` precisa casar com ele.
+
+### Reproduzir o build da Cloudflare localmente
+
+Antes de commitar qualquer coisa que afete o deploy, rode:
+
+```bash
+npm run build
+```
+
+É **exatamente** o que a Cloudflare executa. Se terminar em `OpenNext build complete.`
+e gerar `.open-next/worker.js`, o build lá vai passar. Isso evita descobrir erro em
+produção — que foi como este projeto perdeu três deploys seguidos.
+
+Para pré-visualizar o Worker de verdade (não só o `next dev`):
+
+```bash
+npm run preview
+```
+
+> O `wrangler` exige **Node.js >= 22**. O `npm run build` funciona em versões
+> anteriores, mas `preview`/`deploy` não.
+
+### Variáveis de ambiente
+
+Cadastre no painel do Worker, em **Settings → Variables and Secrets**.
+`SUPABASE_SERVICE_ROLE_KEY` deve entrar como **Secret**, nunca como texto puro.
+
+Para desenvolvimento local, o arquivo `.dev.vars` cumpre o papel do `.env.local`
+no runtime do Worker — e está no `.gitignore`.
+
+### Cache
+
+O adapter sugere um *incremental cache* no R2. Não configuramos: a landing é
+praticamente toda estática (só `/api/lead` é dinâmica). Se um dia houver conteúdo
+revalidado, ver [a doc de caching](https://opennext.js.org/cloudflare/caching).
 
 ### ⚠️ Versão do Next.js — duas restrições
 
