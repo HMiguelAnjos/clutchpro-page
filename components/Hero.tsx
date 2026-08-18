@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import {
   ArrowRight,
+  ArrowUpRight,
   Check,
   ChevronDown,
   Eye,
@@ -11,7 +12,7 @@ import {
   PlayCircle,
   UserRound,
 } from "lucide-react";
-import { hero } from "@/lib/content";
+import { hero, platforms } from "@/lib/content";
 import { cn } from "@/lib/utils";
 
 /**
@@ -74,6 +75,36 @@ export function Hero() {
             </a>
           </motion.div>
 
+          {/* Acesso direto aos dois produtos — para quem já é cliente */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.35 }}
+            className="mt-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 lg:justify-start"
+          >
+            <span className="text-xs text-white/35">Já é cliente? Acesse</span>
+            {platforms.map((p) => (
+              <a
+                key={p.id}
+                href={p.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(
+                  "group inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors",
+                  p.accent === "ember"
+                    ? "border-brand-ember/25 bg-brand-ember/[0.07] text-brand-amberLight hover:border-brand-ember/50 hover:bg-brand-ember/[0.12]"
+                    : "border-brand-pitch/25 bg-brand-pitch/[0.07] text-brand-pitchBright hover:border-brand-pitch/50 hover:bg-brand-pitch/[0.12]"
+                )}
+              >
+                {p.name}
+                <ArrowUpRight
+                  size={13}
+                  className="opacity-60 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:opacity-100"
+                />
+              </a>
+            ))}
+          </motion.div>
+
           <motion.ul
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -111,7 +142,7 @@ function HeroMockup() {
       initial={{ opacity: 0, y: 24, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-      className="relative mx-auto w-full max-w-[560px]"
+      className="relative isolate mx-auto w-full max-w-[560px]"
     >
       <div
         aria-hidden
@@ -193,15 +224,16 @@ function HeroMockup() {
         </div>
       </div>
 
-      {/* Badges flutuantes (mantém o "wow") */}
+      {/* Badges flutuantes — ancorados NOS CANTOS para não cobrir os dados
+          do mockup (só aparecem onde há espaço lateral sobrando). */}
       <FloatingBadge
-        className="-left-4 top-16 hidden sm:flex"
+        className="-left-7 -top-6 hidden xl:flex"
         icon={<Flame size={14} className="text-brand-emberBright" />}
         title="Alto valor"
         subtitle="NOTA 7.5 · APOSTAR"
       />
       <FloatingBadge
-        className="-right-4 bottom-20 hidden sm:flex"
+        className="-right-7 -bottom-6 hidden xl:flex"
         icon={<Check size={14} className="text-emerald-300" />}
         title="Edge detectado"
         subtitle="REB +2.0 · linha 5"

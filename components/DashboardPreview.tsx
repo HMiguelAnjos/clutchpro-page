@@ -2,16 +2,17 @@
 
 import { motion } from "framer-motion";
 import {
+  ArrowUpRight,
   Check,
   ChevronDown,
   Eye,
   Flame,
   HelpCircle,
-  Info,
   UserRound,
 } from "lucide-react";
 import {
   dashboardPreview,
+  platformById,
   type PlayerEntry,
   type StatBlock,
 } from "@/lib/content";
@@ -40,7 +41,7 @@ export function DashboardPreview() {
   const neutro = dashboardPreview.players.filter((p) => p.bucket === "neutro");
 
   return (
-    <section id="dashboard" className="relative py-20 sm:py-28">
+    <section id="dashboard" className="relative isolate py-20 sm:py-28">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-80 opacity-60"
@@ -98,6 +99,22 @@ export function DashboardPreview() {
                   <span className="h-1 w-1 rounded-full bg-white/30" />
                 </div>
               </div>
+            </div>
+
+            {/* Atalho para o produto real */}
+            <div className="mt-8 flex justify-center">
+              <a
+                href={platformById("nba").href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-ghost group"
+              >
+                Ver o Terminal na plataforma
+                <ArrowUpRight
+                  size={16}
+                  className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                />
+              </a>
             </div>
           </div>
         </Reveal>

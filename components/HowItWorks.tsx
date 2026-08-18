@@ -19,11 +19,11 @@ export function HowItWorks() {
           titleHighlight="insight acionável"
         />
 
-        <div className="relative mt-14 grid gap-4 md:grid-cols-3">
+        <div className="relative mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {/* Linha conectora horizontal (desktop) */}
           <div
             aria-hidden
-            className="pointer-events-none absolute left-[8%] right-[8%] top-12 hidden h-px md:block"
+            className="pointer-events-none absolute left-[8%] right-[8%] top-12 hidden h-px lg:block"
             style={{
               background:
                 "linear-gradient(90deg, transparent, rgba(255,122,26,0.45), rgba(255,184,0,0.45), rgba(78,160,255,0.35), transparent)",
@@ -50,7 +50,7 @@ export function HowItWorks() {
 
                   {/* Seta entre passos (mobile) */}
                   {i < howItWorks.steps.length - 1 && (
-                    <div className="absolute -bottom-3 left-1/2 grid h-6 w-6 -translate-x-1/2 place-items-center rounded-full border border-white/10 bg-brand-deep text-white/50 md:hidden">
+                    <div className="absolute -bottom-3 left-1/2 grid h-6 w-6 -translate-x-1/2 place-items-center rounded-full border border-white/10 bg-brand-deep text-white/50 sm:hidden">
                       <ArrowRight size={12} className="rotate-90" />
                     </div>
                   )}

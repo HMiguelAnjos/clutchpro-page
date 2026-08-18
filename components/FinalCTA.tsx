@@ -52,7 +52,7 @@ export function FinalCTA() {
   }
 
   return (
-    <section id="cta-final" className="relative py-24 sm:py-32">
+    <section id="cta-final" className="relative isolate py-24 sm:py-32">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-full opacity-80"
@@ -64,23 +64,23 @@ export function FinalCTA() {
 
       <div className="container-page">
         <Reveal>
-          <div className="relative mx-auto max-w-4xl overflow-hidden rounded-3xl border border-white/[0.08]">
+          <div className="relative isolate mx-auto max-w-4xl overflow-hidden rounded-3xl border border-white/[0.08]">
             {/* Fundo gradiente + sheen */}
             <div
               aria-hidden
               className="absolute inset-0 -z-10"
               style={{
                 background:
-                  "radial-gradient(120% 120% at 0% 0%, rgba(255,122,26,0.35), transparent 50%), radial-gradient(120% 120% at 100% 100%, rgba(255,184,0,0.28), transparent 55%), linear-gradient(180deg, #14110E 0%, #0A0C18 100%)",
+                  "radial-gradient(90% 90% at 0% 0%, rgba(255,122,26,0.42), transparent 58%), radial-gradient(85% 85% at 100% 100%, rgba(255,184,0,0.30), transparent 60%), radial-gradient(70% 70% at 100% 0%, rgba(18,183,106,0.16), transparent 62%), linear-gradient(180deg, #191308 0%, #0A0C18 100%)",
               }}
             />
             <div className="bg-grid-overlay absolute inset-0 -z-10 opacity-40" />
 
             <div className="px-6 py-14 text-center sm:px-12 sm:py-20">
               <span className="eyebrow">{finalCta.eyebrow}</span>
-              <h2 className="mt-5 font-display text-3xl font-semibold leading-tight tracking-tight text-white sm:text-4xl md:text-5xl">
-                Pronto para analisar a NBA com{" "}
-                <span className="text-gradient">mais inteligência?</span>
+              <h2 className="mt-5 font-display text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl md:text-5xl">
+                {finalCta.title.replace(finalCta.highlight, "")}
+                <span className="text-gradient">{finalCta.highlight}</span>
               </h2>
               <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/65 sm:text-lg">
                 {finalCta.text}

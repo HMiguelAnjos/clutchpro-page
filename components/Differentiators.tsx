@@ -10,7 +10,7 @@ import { SectionHeading } from "./primitives/SectionHeading";
  */
 export function Differentiators() {
   return (
-    <section id="diferenciais" className="relative py-20 sm:py-28">
+    <section id="diferenciais" className="relative isolate py-20 sm:py-28">
       <div
         aria-hidden
         className="pointer-events-none absolute -left-32 bottom-10 -z-10 h-80 w-80 rounded-full opacity-30 blur-3xl"

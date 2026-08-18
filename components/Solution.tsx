@@ -49,7 +49,7 @@ export function Solution() {
 
 function SolutionVisual() {
   return (
-    <div className="relative">
+    <div className="relative isolate">
       <div
         aria-hidden
         className="absolute -inset-6 -z-10 rounded-[2rem] opacity-70 blur-3xl"
