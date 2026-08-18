@@ -3,62 +3,115 @@ import { cn } from "@/lib/utils";
 
 /**
  * Logo ClutchPro
- * ---------------
- * Usa a imagem em /public/logo.png (a logo completa com símbolo + wordmark).
+ * ==============
+ * A marca é composta por duas partes:
  *
- * Como trocar a logo:
- *  1. Substitua o arquivo `public/logo.png`
- *  2. (Opcional) Ajuste `width`/`height` em <Image /> abaixo
+ *  1. MARK      → o escudo (imagem em `public/logo-mark.png`)
+ *  2. WORDMARK  → o texto "ClutchPro" desenhado em tipografia (fonte display),
+ *                 com "Clutch" em branco e "Pro" em gradiente brasa→dourado.
  *
- * Como gerar variações (Mark / Full):
- *  - `LogoMark`: usa só a parte gráfica — ideal para favicon, mobile compacto.
- *    Por enquanto reaproveita a imagem completa com object-fit; quando você
- *    tiver a versão só-símbolo, salve em `/public/logo-mark.png` e troque o src.
- *  - `LogoFull`: imagem completa (símbolo + wordmark) — usada na Navbar e Footer.
+ * Por que o wordmark é texto e não imagem?
+ *  - Fica nítido em qualquer densidade de tela (sem blur em retina).
+ *  - Escala e alinha perfeitamente com o resto da tipografia da página.
+ *  - Pesa ~0 KB.
+ *
+ * Como trocar a arte do escudo:
+ *  → substitua `public/logo-mark.png` (PNG quadrado, fundo transparente).
+ *  → para o favicon, substitua também `app/icon.png`.
  */
 
-/* 🔧 TROQUE AQUI quando salvar sua logo real:
- *    Salve a logo em public/logo.png e mude para "/logo.png".
- *    O .svg atual é só um placeholder provisório (estilo aproximado da sua logo).
- */
-const LOGO_FULL_SRC = "/logo.svg";
-const LOGO_MARK_SRC = "/logo.svg";
+const LOGO_MARK_SRC = "/logo-mark.png";
 
-export function LogoMark({ className }: { className?: string }) {
+type Size = "sm" | "md" | "lg";
+
+/** Dimensões do escudo por tamanho. */
+const markSize: Record<Size, { box: string; px: number }> = {
+  sm: { box: "h-9 w-9", px: 36 },
+  md: { box: "h-11 w-11", px: 44 },
+  lg: { box: "h-16 w-16 sm:h-20 sm:w-20", px: 80 },
+};
+
+/** Escala tipográfica do wordmark por tamanho. */
+const wordSize: Record<Size, string> = {
+  sm: "text-[19px]",
+  md: "text-[23px]",
+  lg: "text-[34px] sm:text-[42px]",
+};
+
+/**
+ * Só o escudo — para favicon, avatar, mobile compacto ou selos.
+ */
+export function LogoMark({
+  className,
+  size = "md",
+  glow = true,
+}: {
+  className?: string;
+  size?: Size;
+  glow?: boolean;
+}) {
+  const s = markSize[size];
   return (
-    <div className={cn("relative h-9 w-9 overflow-hidden", className)}>
-      {/* Recorte para mostrar apenas a parte do escudo da logo composta */}
+    <span className={cn("relative isolate inline-block shrink-0", s.box, className)}>
+      {glow && (
+        <span
+          aria-hidden
+          className="absolute inset-0 -z-10 rounded-full opacity-70 blur-lg"
+          style={{
+            background:
+              "radial-gradient(50% 50% at 50% 50%, rgba(255,122,26,0.55), transparent 70%)",
+          }}
+        />
+      )}
       <Image
         src={LOGO_MARK_SRC}
-        alt="ClutchPro"
+        alt=""
+        aria-hidden
         fill
-        sizes="36px"
-        className="object-contain object-left"
+        sizes={`${s.px}px`}
+        className="select-none object-contain"
         priority
       />
-    </div>
+    </span>
   );
 }
 
+/**
+ * Marca completa: escudo + wordmark tipográfico.
+ * Usada na Navbar (sm), no Footer (md) e em destaques (lg).
+ */
 export function LogoFull({
   className,
   size = "md",
+  withTagline = false,
 }: {
   className?: string;
-  size?: "sm" | "md" | "lg";
+  size?: Size;
+  /** Exibe a micro-tagline "SPORTS INTELLIGENCE" sob o wordmark. */
+  withTagline?: boolean;
 }) {
-  const heightClass =
-    size === "lg" ? "h-14 sm:h-16" : size === "sm" ? "h-8" : "h-10 sm:h-11";
   return (
-    <div className={cn("relative inline-flex items-center", className)}>
-      <Image
-        src={LOGO_FULL_SRC}
-        alt="ClutchPro"
-        width={360}
-        height={96}
-        priority
-        className={cn("w-auto select-none", heightClass)}
-      />
-    </div>
+    <span className={cn("inline-flex items-center gap-2.5", className)}>
+      <LogoMark size={size} />
+
+      {/* Wordmark — acessível como texto real para leitores de tela e SEO */}
+      <span className="inline-flex flex-col justify-center leading-none">
+        <span
+          className={cn(
+            "font-display font-extrabold leading-none tracking-[-0.03em]",
+            wordSize[size]
+          )}
+        >
+          <span className="text-white">Clutch</span>
+          <span className="text-gradient-ember">Pro</span>
+        </span>
+
+        {withTagline && (
+          <span className="mt-1.5 text-[9px] font-semibold uppercase tracking-[0.32em] text-white/35">
+            Sports Intelligence
+          </span>
+        )}
+      </span>
+    </span>
   );
 }

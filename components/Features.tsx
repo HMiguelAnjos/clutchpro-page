@@ -35,7 +35,7 @@ const accentMap: Record<Feature["accent"], { icon: string; ring: string; glow: s
 
 export function Features() {
   return (
-    <section id="features" className="relative py-20 sm:py-28">
+    <section id="features" className="relative isolate py-20 sm:py-28">
       <div
         aria-hidden
         className="pointer-events-none absolute right-0 top-10 -z-10 h-80 w-80 rounded-full opacity-40 blur-3xl"

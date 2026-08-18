@@ -10,7 +10,7 @@ import { SectionHeading } from "./primitives/SectionHeading";
  */
 export function Problem() {
   return (
-    <section id="problema" className="relative py-20 sm:py-28">
+    <section id="problema" className="relative isolate py-20 sm:py-28">
       {/* Glow lateral discreto */}
       <div
         aria-hidden

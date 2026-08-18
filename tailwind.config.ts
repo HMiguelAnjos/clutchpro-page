@@ -17,7 +17,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
-        display: ["var(--font-space)", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "system-ui", "sans-serif"],
       },
       colors: {
         // Paleta alinhada à logo ClutchPro: laranja brasa + dourado + azul tech.
@@ -39,6 +39,10 @@ const config: Config = {
           blue: "#3D7BFF",
           blueBright: "#4EA0FF",
           violet: "#7C4DFF",
+          // Verde "gramado" — identidade da plataforma de Futebol.
+          // (o laranja brasa continua sendo a cor da plataforma de NBA)
+          pitch: "#12B76A",
+          pitchBright: "#3DDC97",
           // Status
           green: "#22C55E",
           red: "#FF4D5E",
@@ -58,6 +62,7 @@ const config: Config = {
         glowAmber: "0 0 0 1px rgba(255,184,0,0.28), 0 20px 60px -20px rgba(255,184,0,0.5)",
         glowBlue: "0 0 0 1px rgba(78,160,255,0.22), 0 20px 60px -20px rgba(61,123,255,0.4)",
         glowViolet: "0 0 0 1px rgba(124,77,255,0.22), 0 20px 60px -20px rgba(124,77,255,0.4)",
+        glowPitch: "0 0 0 1px rgba(61,220,151,0.24), 0 20px 60px -20px rgba(18,183,106,0.5)",
         panel: "0 30px 80px -30px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.04)",
       },
       keyframes: {
