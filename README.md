@@ -16,7 +16,7 @@ cada uma delas:
 
 ## Stack
 
-- **Next.js 14** (App Router) + **TypeScript**
+- **Next.js 16** (App Router) + **React 19** + **TypeScript**
 - **Tailwind CSS** com tokens de design dedicados (`tailwind.config.ts`)
 - **Framer Motion** para animações sutis
 - **Lucide React** para ícones
@@ -106,18 +106,36 @@ como **Secret**, nunca como variável de texto puro.
 
 Depois é só dar `git push` — a Cloudflare refaz o build e o deploy sozinha.
 
-### ⚠️ Versão mínima do Next.js
+### ⚠️ Versão do Next.js — duas restrições
 
-O `wrangler` só configura o projeto automaticamente a partir do
-**Next.js 14.2.35**. Em versões anteriores o build passa, mas o deploy morre com:
+O deploy passa pelo `@opennextjs/cloudflare`, que impõe **duas** regras. As duas
+falham *depois* de o build ter passado, então não confie só no `next build`.
+
+**1. Faixa de versão aceita pelo adapter**
 
 ```
-✘ [ERROR] The version of Next.js used in the project ("14.2.18") cannot be
-  automatically configured. Please update the Next.js version to at least "14.2.35"
+next: ">=15.5.21 <16 || >=16.2.11"
 ```
 
-Por isso a versão em `package.json` fica **fixada sem `^`**. Se for atualizar,
-não desça de `14.2.35`.
+Fora disso, o `wrangler` nem consegue autoconfigurar o projeto.
+
+**2. O major precisa estar dentro do suporte do Next.js**
+
+O adapter recusa majors fora da [política de suporte](https://nextjs.org/support-policy)
+do Next (2 anos a partir do lançamento):
+
+```
+ERROR Next.js version 14.2.35 is not supported by the Next.js team.
+Major versions are supported for 2 years from their release date.
+```
+
+Por isso o projeto está no **Next 16**, e não no 15: a linha 15 saiu em out/2024
+e perde o suporte em **out/2026** — subir pra ela seria repetir esse mesmo erro
+poucos meses depois.
+
+> Existe a flag `--dangerouslyUseUnsupportedNextVersion` para forçar o deploy com
+> um major sem suporte. **Não use**: "sem suporte" significa vulnerabilidade sem
+> patch em um site público. O nome da flag não é acidente.
 
 ## Estrutura
 
