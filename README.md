@@ -89,16 +89,35 @@ Copie `.env.example` para `.env.local` e preencha:
    para o `.env.local` (e depois para a plataforma de deploy).
 4. Seus leads aparecem em **Table Editor → leads**.
 
-## Deploy (Vercel — recomendado)
+## Deploy (Cloudflare Workers)
 
-1. Suba o projeto para um repositório no GitHub.
-2. Em [vercel.com](https://vercel.com), **Add New → Project** e importe o repo
-   (a Vercel detecta Next.js automaticamente, sem configuração).
-3. Em **Settings → Environment Variables**, cadastre as três variáveis acima.
-4. **Deploy**. A página fica no ar em `https://<projeto>.vercel.app` (HTTPS grátis).
+O deploy roda em **Cloudflare Workers**, via *Workers Builds* ligado ao repo:
 
-Para republicar depois de qualquer mudança, basta dar `git push` — a Vercel
-faz o redeploy sozinha.
+| Etapa           | Comando           |
+| --------------- | ----------------- |
+| Build           | `npm run build`   |
+| Deploy          | `npx wrangler deploy` |
+| Output          | `.next`           |
+| Worker          | `clutchpro-page`  |
+
+Cadastre as variáveis de ambiente (acima) no painel do Worker, em
+**Settings → Variables and Secrets**. `SUPABASE_SERVICE_ROLE_KEY` deve entrar
+como **Secret**, nunca como variável de texto puro.
+
+Depois é só dar `git push` — a Cloudflare refaz o build e o deploy sozinha.
+
+### ⚠️ Versão mínima do Next.js
+
+O `wrangler` só configura o projeto automaticamente a partir do
+**Next.js 14.2.35**. Em versões anteriores o build passa, mas o deploy morre com:
+
+```
+✘ [ERROR] The version of Next.js used in the project ("14.2.18") cannot be
+  automatically configured. Please update the Next.js version to at least "14.2.35"
+```
+
+Por isso a versão em `package.json` fica **fixada sem `^`**. Se for atualizar,
+não desça de `14.2.35`.
 
 ## Estrutura
 
