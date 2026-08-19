@@ -7,9 +7,9 @@
  * Como editar:
  *  - Textos:         altere as strings dentro de cada seção.
  *  - CTAs:           mude `label` e `href` em `cta` / `ctaSecondary`.
- *  - Plataformas:    `platforms` controla os dois produtos (NBA e Futebol).
+ *  - Plataforma:     `platforms` controla o produto e o link do bot.
  *  - Cards/ícones:   os ícones são nomes do pacote `lucide-react`.
- *  - Números de prova: `proof` — ver o aviso de atualização na própria seção.
+ *  - Terminal demo:  `dashboardPreview.players` alimenta o mockup do produto.
  */
 
 import type { LucideIcon } from "lucide-react";
@@ -21,11 +21,9 @@ import {
   Crosshair,
   Flame,
   Gauge,
-  Goal,
   Layers,
   LineChart,
   Radar,
-  ScanLine,
   ShieldCheck,
   Sparkles,
   Target,
@@ -37,11 +35,19 @@ import {
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
-/* Plataformas — os dois produtos da ClutchPro                         */
+/* Plataformas                                                         */
 /* ------------------------------------------------------------------ */
-/* ⚠️ É AQUI que ficam os links dos bots. Trocou de domínio? Mude só    */
-/*    o `href` abaixo — Navbar, Hero, seção de plataformas e Footer     */
-/*    leem todos deste mesmo lugar.                                     */
+/* ⚠️ É AQUI que fica o link do bot. Trocou de domínio? Mude só o       */
+/*    `href` abaixo — Navbar, Hero, seção do produto e Footer leem      */
+/*    todos deste mesmo lugar.                                          */
+/*                                                                      */
+/* 🏀 A landing está 100% focada em BASQUETE.                           */
+/*    A plataforma de Futebol (football.clutchprosports.com) foi tirada  */
+/*    do ar da página por decisão de posicionamento, não por ter sido    */
+/*    descontinuada. A estrutura abaixo continua sendo uma LISTA de      */
+/*    propósito: para trazer o futebol de volta, basta acrescentar um    */
+/*    segundo objeto aqui — os componentes já iteram sobre o array e a   */
+/*    identidade visual verde ("pitch") segue nos design tokens.         */
 
 export type PlatformId = "nba" | "football";
 
@@ -59,7 +65,7 @@ export type Platform = {
   description: string;
   /** URL do produto (abre em nova aba) */
   href: string;
-  /** Identidade visual do card: brasa (NBA) ou gramado (Futebol) */
+  /** Identidade visual do card: brasa (NBA) ou gramado (reservado) */
   accent: "ember" | "pitch";
   icon: LucideIcon;
   /** Selo de status exibido no card */
@@ -113,47 +119,6 @@ export const platforms: Platform[] = [
     ],
     cta: "Acessar ClutchPro NBA",
   },
-  {
-    id: "football",
-    short: "Futebol",
-    name: "ClutchPro Football",
-    sport: "Futebol · Ligas do mundo todo",
-    tagline: "Sua central de decisão, orientada a confiança.",
-    description:
-      "As oportunidades do dia com a probabilidade real de cada evento acontecer — e o motivo escrito em português claro. Por trás, um painel de calibração que compara a confiança prometida com o acerto que realmente aconteceu.",
-    href: "https://football.clutchprosports.com/",
-    accent: "pitch",
-    icon: Goal,
-    status: "Oportunidades atualizadas todo dia",
-    highlights: [
-      {
-        icon: ScanLine,
-        title: "Nove mercados acompanhados",
-        text: "Dupla chance, gols, cartões, escanteios, desarmes, finalizações e mais.",
-      },
-      {
-        icon: Brain,
-        title: "Probabilidade explicada",
-        text: "Cada oportunidade vem com a chance estimada e a justificativa em texto.",
-      },
-      {
-        icon: Activity,
-        title: "Calibração aberta",
-        text: "Confiança prometida × acerto real, faixa a faixa. Inclusive onde erramos.",
-      },
-      {
-        icon: Radar,
-        title: "Agenda e análise por jogo",
-        text: "Champions, Libertadores, La Liga, Série B — próximos jogos com leitura pronta.",
-      },
-    ],
-    metrics: [
-      { value: "595", label: "Picks liquidadas" },
-      { value: "61%", label: "Taxa de acerto" },
-      { value: "9", label: "Mercados" },
-    ],
-    cta: "Acessar ClutchPro Football",
-  },
 ];
 
 /** Atalho para buscar uma plataforma pelo id. */
@@ -167,12 +132,12 @@ export const platformById = (id: PlatformId) =>
 export const nav = {
   brand: "ClutchPro",
   links: [
-    { label: "Plataformas", href: "#plataformas" },
+    { label: "A plataforma", href: "#plataforma" },
     { label: "Como funciona", href: "#como-funciona" },
-    { label: "Transparência", href: "#transparencia" },
+    { label: "O Terminal", href: "#dashboard" },
     { label: "Diferenciais", href: "#diferenciais" },
   ],
-  /** Menu "Entrar" — leva direto para cada bot */
+  /** Botão "Entrar" — leva direto para o bot (ver `platforms`) */
   loginLabel: "Entrar",
   cta: { label: "Acesso antecipado", href: "#cta-final" },
 };
@@ -182,19 +147,19 @@ export const nav = {
 /* ------------------------------------------------------------------ */
 
 export const hero = {
-  eyebrow: "Análise · Edge · Decisão",
+  eyebrow: "NBA · Análise · Edge · Decisão",
   titleLines: ["Onde a estatística", "vira decisão"],
   // a expressão abaixo recebe destaque em gradiente
   highlight: "vira decisão",
   subtitle:
-    "Um motor estatístico, duas plataformas. O ClutchPro cruza histórico, ritmo, forma e contexto de jogo para mostrar onde existe vantagem real — na NBA e no futebol. Sem achismo e sem promessa de resultado.",
+    "Inteligência estatística dedicada à NBA. O ClutchPro cruza histórico, ritmo de jogo, minutos e momento de cada atleta para mostrar onde existe vantagem real — jogador a jogador, enquanto a partida acontece.",
   cta: { label: "Entrar na lista de acesso", href: "#cta-final" },
-  ctaSecondary: { label: "Ver as plataformas", href: "#plataformas" },
+  ctaSecondary: { label: "Ver a plataforma", href: "#plataforma" },
   trustChips: [
-    { icon: BarChart3, label: "Projeções estatísticas" },
+    { icon: BarChart3, label: "Projeção por jogador" },
     { icon: Activity, label: "Leitura ao vivo" },
     { icon: Target, label: "Edge vs. linha" },
-    { icon: ShieldCheck, label: "Calibração aberta" },
+    { icon: Gauge, label: "NOTA composta" },
   ],
 };
 
@@ -206,17 +171,17 @@ export const problem = {
   eyebrow: "O problema",
   title: "Decidir sem dados é depender de achismo",
   description:
-    "Quem analisa esporte hoje precisa cruzar dezenas de fontes em segundos. As linhas mudam, a escalação muda, o ritmo muda — e a leitura humana sozinha não acompanha.",
+    "Quem analisa NBA hoje precisa cruzar dezenas de fontes em segundos. As linhas mudam, a rotação muda, o ritmo muda — e a leitura humana sozinha não acompanha.",
   pains: [
     {
       icon: Radar,
       title: "Estatísticas espalhadas",
-      text: "Box scores, splits, forma recente, cartões e escanteios em sites diferentes. Nada conversa entre si.",
+      text: "Box score, splits, on/off, pace e usage rate em sites diferentes. Nada conversa entre si.",
     },
     {
       icon: Timer,
       title: "O jogo é rápido demais",
-      text: "Quartos e tempos viram, o ritmo muda e janelas de decisão somem em poucos minutos.",
+      text: "Quartos viram, o ritmo muda e janelas de decisão somem em poucos minutos.",
     },
     {
       icon: LineChart,
@@ -224,9 +189,9 @@ export const problem = {
       text: "Sem comparar projeção e linha em tempo real, oportunidade real vira ruído.",
     },
     {
-      icon: AlertTriangle,
-      title: "Ninguém mostra onde errou",
-      text: "Palpite acertado vira print; palpite errado some. Sem histórico auditável não há confiança.",
+      icon: Flame,
+      title: "Sem leitura de momento",
+      text: "Jogador quente, minutos esperados e risco de blowout passam despercebidos.",
     },
   ],
 };
@@ -241,12 +206,12 @@ export const solution = {
   description:
     "O ClutchPro centraliza dados, cruza variáveis e devolve leituras claras — para você agir com informação no lugar de palpite.",
   bullets: [
-    "Análise de performance jogador a jogador",
-    "Projeções baseadas em histórico, forma e ritmo",
-    "Leitura de momento em tempo real",
+    "Projeção de PTS, AST e REB por jogador",
+    "Base em histórico, ritmo de jogo e minutos",
+    "Detecção de jogador quente em tempo real",
     "Comparação entre linha atual e projeção",
-    "Probabilidade com justificativa escrita",
-    "Histórico de acerto aberto e calibrado",
+    "NOTA composta de 0 a 10 por atleta",
+    "Contexto de rotação e risco de blowout",
   ],
 };
 
@@ -270,14 +235,14 @@ export const features: Feature[] = [
   },
   {
     icon: Flame,
-    title: "Leitura de momento",
-    text: "Atletas e equipes acima ou abaixo do padrão esperado, identificados enquanto o jogo acontece.",
+    title: "Jogador quente",
+    text: "Atletas acima do padrão esperado, identificados enquanto a partida acontece.",
     accent: "ember",
   },
   {
     icon: Activity,
     title: "Acompanhamento ao vivo",
-    text: "Produção, ritmo e contexto atualizados durante a partida, sem você trocar de aba.",
+    text: "Pontos, assistências, rebotes e ritmo atualizados sem você trocar de aba.",
     accent: "green",
   },
   {
@@ -288,8 +253,8 @@ export const features: Feature[] = [
   },
   {
     icon: Gauge,
-    title: "Confiança calibrada",
-    text: "Cada leitura carrega um nível de confiança que é auditado contra o resultado real.",
+    title: "NOTA composta",
+    text: "Um número de 0 a 10 que resume PTS, AST, REB, minutos e contexto do jogo.",
     accent: "blue",
   },
   {
@@ -312,69 +277,27 @@ export const howItWorks = {
       icon: Radar,
       step: "01",
       title: "Coleta contínua",
-      text: "O sistema acompanha histórico, estatísticas ao vivo, escalações e contexto de cada jogo.",
+      text: "O sistema acompanha histórico, box score ao vivo, rotação e contexto de cada jogo.",
     },
     {
       icon: Brain,
       step: "02",
       title: "Processamento estatístico",
-      text: "Os modelos cruzam performance, ritmo, forma recente, adversário e momento.",
-    },
-    {
-      icon: Sparkles,
-      step: "03",
-      title: "Insight acionável",
-      text: "Você recebe uma leitura clara: o número, a confiança e o porquê em texto.",
+      text: "Os modelos cruzam produção, pace, minutos esperados, adversário e momento.",
     },
     {
       icon: Gauge,
+      step: "03",
+      title: "NOTA composta",
+      text: "Tudo isso vira um número de 0 a 10 por jogador, com o delta contra a linha.",
+    },
+    {
+      icon: Sparkles,
       step: "04",
-      title: "Auditoria do modelo",
-      text: "Cada leitura é liquidada e comparada ao resultado real para recalibrar o sistema.",
+      title: "Insight acionável",
+      text: "Você vê no Terminal onde há valor e decide com informação, não com palpite.",
     },
   ],
-};
-
-/* ------------------------------------------------------------------ */
-/* Prova / transparência — números da operação                         */
-/* ------------------------------------------------------------------ */
-/* ⚠️ ATUALIZE PERIODICAMENTE.                                          */
-/*    Estes números são um recorte histórico da plataforma de Futebol   */
-/*    (painel "Desempenho por mercado"). Eles NÃO se atualizam sozinhos: */
-/*    são estáticos até alguém editar este arquivo. Se a landing ficar   */
-/*    muito tempo sem atualização, prefira remover a seção a exibir      */
-/*    número velho.                                                      */
-
-export const proof = {
-  eyebrow: "Transparência",
-  title: "Mostramos o placar do modelo — inclusive onde ele erra",
-  description:
-    "A maior parte do mercado só publica o print do acerto. Nós abrimos a amostra inteira: quantas leituras foram liquidadas, quanto cada mercado acertou e o quanto a confiança prometida bateu com a realidade.",
-  stats: [
-    { value: "595", label: "Leituras liquidadas", hint: "363 certas · 232 erradas" },
-    { value: "61%", label: "Taxa de acerto", hint: "Amostra completa, sem recorte" },
-    { value: "9", label: "Mercados auditados", hint: "Do melhor ao pior, tudo à vista" },
-    { value: "2", label: "Esportes cobertos", hint: "NBA e futebol, plataformas separadas" },
-  ],
-  marketsTitle: "Acerto por mercado",
-  marketsHint: "Percentual de acerto sobre a amostra liquidada de cada mercado.",
-  markets: [
-    { label: "Dupla chance", rate: 73, sample: "145/200" },
-    { label: "Over/Under gols", rate: 64, sample: "14/22" },
-    { label: "Cartões", rate: 63, sample: "87/138" },
-    { label: "Escanteios", rate: 57, sample: "59/104" },
-    { label: "Ambas marcam", rate: 52, sample: "12/23" },
-  ],
-  calibrationTitle: "Calibração",
-  calibrationHint:
-    "Confiança prometida × acerto real. Desvio negativo significa modelo superconfiante naquela faixa — e a gente publica isso.",
-  calibration: [
-    { band: "80–89%", real: 84, drift: -1 },
-    { band: "90–100%", real: 71, drift: -24 },
-    { band: "70–79%", real: 63, drift: -11 },
-    { band: "60–69%", real: 51, drift: -14 },
-  ],
-  note: "Recorte histórico da plataforma de Futebol. Desempenho passado não garante resultado futuro.",
 };
 
 /* ------------------------------------------------------------------ */
@@ -408,9 +331,9 @@ export const differentiators = {
       text: "Acompanha quem entra, quanto joga e o impacto disso na projeção.",
     },
     {
-      icon: Gauge,
-      title: "Confiança auditada",
-      text: "Toda leitura é liquidada contra o resultado real e realimenta a calibração.",
+      icon: AlertTriangle,
+      title: "Contexto de blowout",
+      text: "Avalia risco de jogo decidido cedo e o impacto disso na rotação e nos minutos.",
     },
     {
       icon: ShieldCheck,
@@ -559,55 +482,6 @@ export const dashboardPreview = {
 };
 
 /* ------------------------------------------------------------------ */
-/* Preview do produto de Futebol (dados ilustrativos)                  */
-/* ------------------------------------------------------------------ */
-/* Espelha a "Central de decisão": KPIs, oportunidade do dia com        */
-/* probabilidade + justificativa, e próximos jogos.                     */
-
-export type FootballOpportunity = {
-  competition: string;
-  home: string;
-  away: string;
-  /** Ex.: "Cartão (jogador)" */
-  market: string;
-  /** Ex.: "André Luiz — Levar cartão" */
-  pick: string;
-  /** Chance estimada de acontecer (0..100) */
-  chance: number;
-  /** Nível de risco exibido pelo produto */
-  risk: "BAIXA" | "MÉDIA" | "ALTA";
-  /** Justificativa em linguagem natural */
-  reason: string;
-  age: string;
-};
-
-export const footballPreview = {
-  kpis: [
-    { value: "595", label: "Picks" },
-    { value: "61%", label: "Taxa de acerto" },
-    { value: "50", label: "Oportunidades hoje" },
-  ],
-  opportunity: {
-    competition: "Série B",
-    home: "Londrina",
-    away: "Atlético Goianiense",
-    market: "Cartão (jogador)",
-    pick: "André Luiz — Levar cartão",
-    chance: 15,
-    risk: "BAIXA",
-    reason:
-      "Está com 2 amarelos no campeonato (a 1 da suspensão) e o próximo jogo é fora de casa — momento de menor custo pra cumprir o gancho. Leva 0.12 amarelo/jogo.",
-    age: "há 3h",
-  } as FootballOpportunity,
-  fixtures: [
-    { competition: "UEFA Champions League", home: "Fenerbahçe", away: "Lyon", time: "16:00" },
-    { competition: "CONMEBOL Libertadores", home: "Ind. Rivadavia", away: "Fluminense", time: "19:00" },
-    { competition: "La Liga", home: "Atlético Madrid", away: "Málaga", time: "16:00" },
-  ],
-  disclaimer: "Dados ilustrativos para demonstração visual.",
-};
-
-/* ------------------------------------------------------------------ */
 /* Aviso responsável                                                   */
 /* ------------------------------------------------------------------ */
 
@@ -624,7 +498,7 @@ export const finalCta = {
   eyebrow: "Acesso antecipado",
   title: "Pronto para decidir com estatística no lugar de palpite?",
   highlight: "estatística no lugar de palpite?",
-  text: "Entre na lista de acesso e acompanhe a evolução das duas plataformas — NBA e futebol.",
+  text: "Entre na lista de acesso e acompanhe de perto a evolução do ClutchPro.",
   cta: { label: "Quero acesso ao ClutchPro", href: "#cta-final" },
   placeholder: "seu@email.com",
 };
@@ -643,10 +517,10 @@ export type FooterColumn = {
 export const footer = {
   brand: "ClutchPro",
   tagline:
-    "Inteligência estatística para NBA e futebol. Um motor, duas plataformas — análise, edge e decisão.",
+    "Inteligência estatística dedicada à NBA. Análise, edge e decisão — jogador a jogador, ao vivo.",
   columns: [
     {
-      title: "Plataformas",
+      title: "Plataforma",
       // Preenchido a partir de `platforms` no componente Footer.
       links: [],
       fromPlatforms: true,
@@ -654,10 +528,10 @@ export const footer = {
     {
       title: "Produto",
       links: [
+        { label: "A plataforma", href: "#plataforma" },
         { label: "Como funciona", href: "#como-funciona" },
-        { label: "Transparência", href: "#transparencia" },
+        { label: "O Terminal", href: "#dashboard" },
         { label: "Diferenciais", href: "#diferenciais" },
-        { label: "Preview do Terminal", href: "#dashboard" },
       ],
     },
     {

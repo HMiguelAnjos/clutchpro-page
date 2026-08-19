@@ -1,18 +1,36 @@
 # ClutchPro · Landing Page
 
-Landing page premium do **ClutchPro** — inteligência estatística para **NBA** e
-**futebol**.
+Landing page premium do **ClutchPro** — inteligência estatística dedicada à **NBA**.
 
-A landing apresenta as duas plataformas do produto e direciona o visitante para
-cada uma delas:
+A landing apresenta o produto e direciona o visitante para a plataforma:
 
-| Plataforma          | URL                                  |
-| ------------------- | ------------------------------------ |
-| ClutchPro NBA       | https://nba.clutchprosports.com/     |
-| ClutchPro Football  | https://football.clutchprosports.com/ |
+| Plataforma    | URL                              |
+| ------------- | -------------------------------- |
+| ClutchPro NBA | https://nba.clutchprosports.com/ |
 
-> Os links ficam em **um único lugar**: `lib/content.ts > platforms`. Navbar,
-> Hero, seção de plataformas e rodapé leem todos de lá.
+> O link fica em **um único lugar**: `lib/content.ts > platforms`. Navbar, Hero,
+> seção da plataforma e rodapé leem todos de lá.
+
+### 🏀 Foco em basquete
+
+A landing já apresentou também a plataforma de **Futebol**
+(`football.clutchprosports.com`). Ela foi retirada da página por decisão de
+posicionamento — **não** foi descontinuada.
+
+O código foi preparado para o retorno ser barato:
+
+- `platforms` continua sendo uma **lista**; basta acrescentar um segundo objeto
+- os componentes já iteram sobre ela e trocam de layout sozinhos
+  (card largo em 2 colunas quando há um; grade lado a lado quando há dois)
+- o `Navbar` volta a exibir o menu suspenso "Entrar" automaticamente
+- os design tokens verdes (`brand.pitch`, `btn-pitch`, `text-gradient-pitch`,
+  `gradient-border-pitch`) seguem no projeto
+
+O que **não** volta sozinho: a seção `Proof` (transparência), que era 100%
+alimentada por dados do painel de futebol. Foi removida em vez de ter os números
+reetiquetados como NBA — publicar histórico de acerto de um esporte como se fosse
+de outro seria inventar track record. Está no histórico do git, pronta para
+voltar quando houver amostra liquidada de NBA.
 
 ## Stack
 
@@ -43,22 +61,12 @@ Na grande maioria dos casos, basta editar esse arquivo.
 | CTAs (label + href)      | `lib/content.ts` (campo `cta` em cada seção)          |
 | Links dos bots           | `lib/content.ts > platforms` (campo `href`)           |
 | Dados do dashboard demo  | `lib/content.ts > dashboardPreview.players`           |
-| Preview do futebol       | `lib/content.ts > footballPreview`                    |
-| Números de transparência | `lib/content.ts > proof` ⚠️ estáticos — ver abaixo    |
 | Cores da marca           | `tailwind.config.ts > theme.extend.colors.brand`      |
 | Gradientes / glow        | `tailwind.config.ts > backgroundImage / boxShadow`    |
 | Fontes                   | `app/layout.tsx`                                      |
 | Logo                     | `public/logo-mark.png` + `app/icon.png` (favicon)     |
 | Ordem das seções         | `app/page.tsx`                                        |
 | Estilos globais          | `app/globals.css`                                     |
-
-### ⚠️ Números da seção "Transparência"
-
-`lib/content.ts > proof` traz um recorte **estático** do painel de desempenho da
-plataforma de futebol (leituras liquidadas, acerto por mercado e calibração).
-Eles **não se atualizam sozinhos**. Revise periodicamente — se a landing ficar
-muito tempo sem atualização, prefira remover a seção de `app/page.tsx` a exibir
-número velho.
 
 ### Captura de email (CTA final)
 
@@ -197,16 +205,15 @@ app/
   globals.css         # estilos globais + utilitários
 components/
   Logo.tsx            # escudo (PNG) + wordmark tipográfico
-  Navbar.tsx          # marca + menu "Entrar" com as duas plataformas
+  Navbar.tsx          # marca + botão "Entrar" (vira menu se houver 2 produtos)
   Hero.tsx
-  Platforms.tsx       # 🔑 os dois produtos + links de acesso
+  Platforms.tsx       # 🔑 o produto + link de acesso
   Problem.tsx
   Solution.tsx
   Features.tsx
   HowItWorks.tsx
   Differentiators.tsx
   DashboardPreview.tsx
-  Proof.tsx           # transparência: acerto por mercado + calibração
   Disclaimer.tsx
   FinalCTA.tsx
   Footer.tsx
@@ -227,8 +234,8 @@ Paleta principal (em `tailwind.config.ts`):
 - `brand.ember` `#FF7A1A` / `brand.emberBright` `#FF9A45` — **cor protagonista**
   (vem da logo) e identidade da plataforma de **NBA**
 - `brand.amber` `#FFB800` / `brand.amberLight` `#FFD15C` — highlights dourados
-- `brand.pitch` `#12B76A` / `brand.pitchBright` `#3DDC97` — identidade da
-  plataforma de **Futebol** (verde gramado)
+- `brand.pitch` `#12B76A` / `brand.pitchBright` `#3DDC97` — verde gramado,
+  **reservado** para o eventual retorno da plataforma de Futebol
 - `brand.blue` `#3D7BFF` / `brand.blueBright` `#4EA0FF` — secundário tech
 - `brand.violet` `#7C4DFF` — terciário (bloco REB do Terminal)
 - `brand.green` `#22C55E` / `brand.red` `#FF4D5E` — status

@@ -139,6 +139,27 @@ function LoginMenu() {
   const [open, setOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
 
+  // Com um único produto, dropdown é atrito à toa: o botão leva direto ao bot.
+  // Se um segundo produto voltar a `lib/content.ts > platforms`, o menu abaixo
+  // volta a ser usado automaticamente.
+  if (platforms.length === 1) {
+    const p = platforms[0];
+    return (
+      <a
+        href={p.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-sm font-semibold text-white/80 transition-colors hover:border-white/20 hover:bg-white/[0.06] hover:text-white"
+      >
+        {nav.loginLabel}
+        <ArrowUpRight
+          size={14}
+          className="opacity-60 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:opacity-100"
+        />
+      </a>
+    );
+  }
+
   // Fecha ao clicar fora ou apertar Esc — comportamento esperado de menu.
   useEffect(() => {
     if (!open) return;
