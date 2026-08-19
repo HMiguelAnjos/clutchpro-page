@@ -27,26 +27,26 @@ const sora = Sora({
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://clutchprosports.com";
 
 /**
- * SEO base — a marca cobre DOIS produtos (NBA e Futebol); o título e a
- * descrição refletem isso. Ajuste a URL canônica via NEXT_PUBLIC_SITE_URL.
+ * SEO base — a landing é 100% dedicada à NBA. Ajuste a URL canônica via
+ * NEXT_PUBLIC_SITE_URL.
  */
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "ClutchPro — Inteligência estatística para NBA e Futebol",
+    default: "ClutchPro — Inteligência estatística para a NBA",
     template: "%s · ClutchPro",
   },
   description:
-    "Duas plataformas, um mesmo motor estatístico. O ClutchPro cruza dados históricos, ritmo de jogo, forma e contexto para transformar estatística em decisão — na NBA e no futebol.",
+    "O ClutchPro cruza histórico, ritmo de jogo, minutos e momento de cada atleta da NBA para transformar estatística em decisão — jogador a jogador, ao vivo.",
   applicationName: "ClutchPro",
   keywords: [
     "ClutchPro",
-    "análise estatística esportiva",
     "NBA analytics",
-    "estatísticas de futebol",
+    "estatísticas NBA",
     "projeções NBA",
     "props NBA",
-    "modelo estatístico futebol",
+    "análise de jogadores NBA",
+    "pontos assistências rebotes",
     "inteligência esportiva",
   ],
   alternates: { canonical: "/" },
@@ -57,14 +57,14 @@ export const metadata: Metadata = {
     locale: "pt_BR",
     title: "ClutchPro — Análise. Edge. Decisão.",
     description:
-      "Projeções, leitura ao vivo e edge estatístico para NBA e futebol. Um motor, duas plataformas.",
+      "Projeção por jogador, leitura ao vivo e edge contra a linha. Inteligência estatística dedicada à NBA.",
     images: [{ url: "/logo-mark.png", width: 512, height: 512, alt: "ClutchPro" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "ClutchPro — Análise. Edge. Decisão.",
     description:
-      "Inteligência estatística para NBA e futebol. Um motor, duas plataformas.",
+      "Inteligência estatística dedicada à NBA. Projeção, edge e decisão jogador a jogador.",
     images: ["/logo-mark.png"],
   },
   robots: { index: true, follow: true },
