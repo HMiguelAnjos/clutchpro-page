@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
 import { LogoFull } from "./Logo";
+import { SocialLinks } from "./SocialLinks";
 import { nav, platforms } from "@/lib/content";
 import { cn } from "@/lib/utils";
 
@@ -125,6 +126,9 @@ export function Navbar() {
           >
             {nav.cta.label}
           </a>
+
+          {/* Redes — no mobile é onde o tráfego de Instagram costuma vir */}
+          <SocialLinks className="mt-4 justify-center pb-1" />
         </div>
       </motion.div>
     </motion.header>
@@ -138,6 +142,25 @@ export function Navbar() {
 function LoginMenu() {
   const [open, setOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
+
+  // Fecha ao clicar fora ou apertar Esc — comportamento esperado de menu.
+  // ⚠️ Este hook precisa vir ANTES de qualquer `return` condicional: as Regras
+  //    dos Hooks exigem que a ordem de chamada seja sempre a mesma.
+  useEffect(() => {
+    if (!open) return;
+    const onClickOutside = (e: MouseEvent) => {
+      if (!wrapRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("mousedown", onClickOutside);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onClickOutside);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
 
   // Com um único produto, dropdown é atrito à toa: o botão leva direto ao bot.
   // Se um segundo produto voltar a `lib/content.ts > platforms`, o menu abaixo
@@ -159,23 +182,6 @@ function LoginMenu() {
       </a>
     );
   }
-
-  // Fecha ao clicar fora ou apertar Esc — comportamento esperado de menu.
-  useEffect(() => {
-    if (!open) return;
-    const onClickOutside = (e: MouseEvent) => {
-      if (!wrapRef.current?.contains(e.target as Node)) setOpen(false);
-    };
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
-    };
-    document.addEventListener("mousedown", onClickOutside);
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.removeEventListener("mousedown", onClickOutside);
-      document.removeEventListener("keydown", onKey);
-    };
-  }, [open]);
 
   return (
     <div

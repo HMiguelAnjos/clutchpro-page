@@ -504,6 +504,31 @@ export const finalCta = {
 };
 
 /* ------------------------------------------------------------------ */
+/* Redes sociais                                                       */
+/* ------------------------------------------------------------------ */
+/* Para adicionar outra rede (TikTok, YouTube, X...), acrescente um     */
+/* objeto aqui e o glifo correspondente em `components/SocialLinks.tsx`.*/
+
+export type SocialLink = {
+  /** Casa com o glifo em `components/SocialLinks.tsx` */
+  id: "instagram";
+  /** Nome da rede, usado no aria-label */
+  label: string;
+  /** @handle exibido ao lado do ícone */
+  handle: string;
+  href: string;
+};
+
+export const socials: SocialLink[] = [
+  {
+    id: "instagram",
+    label: "Instagram",
+    handle: "@clutchprosports",
+    href: "https://www.instagram.com/clutchprosports/",
+  },
+];
+
+/* ------------------------------------------------------------------ */
 /* Footer                                                              */
 /* ------------------------------------------------------------------ */
 

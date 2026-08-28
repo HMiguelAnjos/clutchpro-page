@@ -60,6 +60,7 @@ Na grande maioria dos casos, basta editar esse arquivo.
 | Textos da landing        | `lib/content.ts`                                      |
 | CTAs (label + href)      | `lib/content.ts` (campo `cta` em cada seção)          |
 | Links dos bots           | `lib/content.ts > platforms` (campo `href`)           |
+| Redes sociais            | `lib/content.ts > socials`                            |
 | Dados do dashboard demo  | `lib/content.ts > dashboardPreview.players`           |
 | Cores da marca           | `tailwind.config.ts > theme.extend.colors.brand`      |
 | Gradientes / glow        | `tailwind.config.ts > backgroundImage / boxShadow`    |
@@ -208,6 +209,7 @@ components/
   Navbar.tsx          # marca + botão "Entrar" (vira menu se houver 2 produtos)
   Hero.tsx
   Platforms.tsx       # 🔑 o produto + link de acesso
+  SocialLinks.tsx     # redes sociais (glifos SVG inline)
   Problem.tsx
   Solution.tsx
   Features.tsx
