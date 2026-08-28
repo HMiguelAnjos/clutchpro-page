@@ -1,5 +1,6 @@
 import { ArrowUpRight, Mail } from "lucide-react";
 import { LogoFull } from "./Logo";
+import { SocialLinks } from "./SocialLinks";
 import { footer, platforms } from "@/lib/content";
 import { contactEmail, hasContactEmail } from "@/lib/config";
 
@@ -25,10 +26,12 @@ export function Footer() {
               {footer.tagline}
             </p>
 
+            <SocialLinks className="mt-5" />
+
             {hasContactEmail && (
               <a
                 href={`mailto:${contactEmail}`}
-                className="mt-5 inline-flex items-center gap-2 text-sm text-white/70 transition-colors hover:text-white"
+                className="mt-4 inline-flex items-center gap-2 text-sm text-white/70 transition-colors hover:text-white"
               >
                 <Mail size={15} className="text-brand-ember" />
                 {contactEmail}
